@@ -1,0 +1,28 @@
+game.Players.PlayerAdded:Connect(function(Player)
+	Player.CharacterAdded:Connect(function(Char)
+		local torso = Char:WaitForChild("Torso")
+
+		local ArmDegreesX = -20
+		local ArmDegreesY = 0
+		local ArmDegreesZ = 45
+
+		local LegDegreesX = 10
+		local LegDegreesY = 0
+		local LegDegreesZ = 20
+
+		local ArmRadX = math.rad(ArmDegreesX)
+		local ArmRadY = math.rad(ArmDegreesY)
+		local ArmRadZ = math.rad(ArmDegreesZ)
+
+		local LegRadX = math.rad(LegDegreesX)
+		local LegRadY = math.rad(LegDegreesY)
+		local LegRadZ = math.rad(LegDegreesZ)
+
+		torso["Right Shoulder"].C0 = torso["Right Shoulder"].C0 * CFrame.Angles(-ArmRadX, ArmRadY, ArmRadZ)
+		torso["Left Shoulder"].C0 = torso["Left Shoulder"].C0 * CFrame.Angles(-ArmRadX, -ArmRadY, -ArmRadZ)
+
+		torso["Right Hip"].C0 = torso["Right Hip"].C0 * CFrame.Angles(-LegRadX, LegRadY, LegRadZ)
+		torso["Left Hip"].C0 = torso["Left Hip"].C0 * CFrame.Angles(-LegRadX, -LegRadY, -LegRadZ)
+	end)
+end)
+		
