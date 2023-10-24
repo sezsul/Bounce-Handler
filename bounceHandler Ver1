@@ -1,0 +1,51 @@
+local UserInputService = game:GetService("UserInputService")
+local Player = game.Players.LocalPlayer
+local Humanoid = Player.Character:WaitForChild("Humanoid")
+local RunService = game:GetService("RunService")
+
+local spacebarPressed = false
+local decreasing = true
+
+local MinJumpPower = 25
+local MaxJumpPower = 125
+local DecreasingRate = 0.1 -- subtractive; -1 per (x) seconds
+local IncreasingRate = 0.075 -- addative rate
+
+Humanoid.JumpPower = MinJumpPower
+
+local function PogoBounce()
+	while spacebarPressed and Humanoid.JumpPower < MaxJumpPower do
+		Humanoid.JumpPower = Humanoid.JumpPower + 1
+		wait(IncreasingRate)
+	end
+end
+
+local function onKeyPress(input)
+	if input.KeyCode == Enum.KeyCode.Space then
+		spacebarPressed = true
+		decreasing = false
+		spawn(PogoBounce)
+	end
+end
+
+local function onKeyRelease(input)
+	if input.KeyCode == Enum.KeyCode.Space then
+		spacebarPressed = false
+		decreasing = true
+	end
+end
+
+UserInputService.InputBegan:Connect(onKeyPress)
+UserInputService.InputEnded:Connect(onKeyRelease)
+
+local function decreaseJumpPower()
+	while decreasing == true and Humanoid.JumpPower > MinJumpPower do
+		Humanoid.JumpPower = Humanoid.JumpPower - 1
+		wait(DecreasingRate)
+	end
+end
+
+while true do
+	decreaseJumpPower()
+	wait(0.1)
+end
