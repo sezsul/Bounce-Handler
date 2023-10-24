@@ -1,0 +1,34 @@
+local Players = game:GetService('Players')
+local SeverStorage = game:GetService('ServerStorage')
+
+local referenceDummy : Model = SeverStorage.ReferenceDummy
+
+local function weld(partA : BasePart, partB : BasePart, offsetCFrame : CFrame)
+	partA.CFrame = partB.CFrame * offsetCFrame
+
+	local weldConstraint = Instance.new('WeldConstraint')
+	weldConstraint.Part0 = partA
+	weldConstraint.Part1 = partB
+	weldConstraint.Parent = partA
+end
+
+local function onCharacterAdded(character : Model)
+	local newWeld = referenceDummy.Pogo:Clone()
+	local weldPart = character:WaitForChild(newWeld.WeldPart.Value.Name)
+	weld(newWeld, weldPart, newWeld.WeldPart.Value.CFrame:Inverse() * newWeld.CFrame)
+	newWeld.Parent = character
+end
+
+Players.PlayerAdded:Connect(function(player : Player)
+	player.CharacterAdded:Connect(onCharacterAdded)
+end)
+
+
+for i, player in pairs (Players:GetPlayers()) do
+	player.CharacterAdded:Connect(onCharacterAdded)
+
+
+	if (player.Character) then
+		onCharacterAdded(player.Character)
+	end
+end
