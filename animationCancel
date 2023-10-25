@@ -1,0 +1,12 @@
+local char = script.Parent
+local root = char:WaitForChild("HumanoidRootPart")
+local hum = char:WaitForChild("Humanoid")
+local anim = char:WaitForChild("Animate")
+
+while true do
+	if anim then
+		wait()
+		anim:Destroy()
+		break
+	end
+end
